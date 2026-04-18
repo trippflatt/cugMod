@@ -1,14 +1,19 @@
 package org.bowserfartgif.cugmod.content.swine;
 
+import dev.ryanhcode.sable.api.SubLevelAssemblyHelper;
 import dev.ryanhcode.sable.api.block.BlockWithSubLevelCollisionCallback;
 import dev.ryanhcode.sable.api.physics.callback.BlockSubLevelCollisionCallback;
+import dev.ryanhcode.sable.companion.math.BoundingBox3i;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -25,6 +30,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.bowserfartgif.cugmod.registry.DoodooBlockEntities;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class WretchedSwineBlock extends Block implements EntityBlock, BlockWithSubLevelCollisionCallback {
 
@@ -60,8 +67,22 @@ public class WretchedSwineBlock extends Block implements EntityBlock, BlockWithS
         return this.defaultBlockState()
                 .setValue(FACING, normal).setValue(HAT, hasHat);
     }
-
-
+    
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        super.onPlace(state, level, pos, oldState, movedByPiston);
+        if (oldState.getBlock() instanceof WretchedSwineBlock) {
+            return;
+        }
+        if (level instanceof ServerLevel serverLevel) {
+            BoundingBox3i bounds = BoundingBox3i.from(List.of(pos, pos.offset(1, 1, 1)));
+            assert bounds != null;
+            
+            SubLevelAssemblyHelper.assembleBlocks(serverLevel, pos, List.of(pos), bounds);
+            level.updateNeighborsAt(pos, state.getBlock());
+        }
+    }
+    
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING).add(MOOD).add(HAT);
