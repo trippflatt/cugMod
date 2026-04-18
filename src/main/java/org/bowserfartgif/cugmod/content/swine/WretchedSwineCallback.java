@@ -10,11 +10,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.level.block.BaseFireBlock;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.LavaFluid;
 import org.bowserfartgif.cugmod.registry.DoodooSoundTypes;
 import org.joml.Vector3d;
 
@@ -23,7 +20,7 @@ public class WretchedSwineCallback implements BlockSubLevelCollisionCallback {
     public static final WretchedSwineCallback INSTANCE = new WretchedSwineCallback();
     
     public double getTriggerVelocity() {
-        return 12.0;
+        return 10.0;
     }
     
     @Override
