@@ -1,5 +1,5 @@
 {
-	"parent": "cugmod:block/wretched_swine/happy",
+	"parent": "cugmod:block/wretched_swine/angry",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [90, 0, 0],

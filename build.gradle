@@ -114,7 +114,7 @@ dependencies {
     compileOnly(flywheelApi)
 
     def flywheel = "dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}"
-    compileOnly(flywheel)
+    implementation(flywheel)
 
     implementation("dev.ryanhcode.sable:sable-neoforge-${minecraft_version}:${sable_version}") {
         exclude group: 'foundry.veil'
